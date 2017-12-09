@@ -2,6 +2,8 @@ from App import App
 from AppWindow import *
 from AppProvider import AppProvider
 
+REFRESH_RATE = 1 # seconds
+
 class Launcher(object):
 
     def __init__(self):
@@ -9,13 +11,19 @@ class Launcher(object):
         self.apps = {}
         self.num_windows = 0
         self.last_slot = self.num_windows
+        self.createApps()
 
+    def createApps(self):
         # create app launchers
-        for app_detail in AppProvider.getAppList():
+        self.apps = {}
+
+        for app_detail in AppProvider.getAppList(True):
             self.apps[app_detail[0]] = App(self, app_detail)
             self.apps[app_detail[0]].window.hide()
 
     def update(self):
+        AppProvider.update()
+        print "[CuteLauncher] GUI update"
         for app in self.apps.values():
             if not app.set_running(AppProvider.isAppRunning(app.exec_path)):
                 continue
@@ -26,9 +34,9 @@ class Launcher(object):
         return True
 
     def start(self):
-        print "[CuteLauncher] starting..."
+        print "[CuteLauncher] Starting..."
         GLib.threads_init()
-        GLib.timeout_add_seconds(1, self.update)
+        GLib.timeout_add_seconds(REFRESH_RATE, self.update)
         Gtk.main()
 
     def show_app(self, app):
@@ -36,6 +44,9 @@ class Launcher(object):
 
     def hide_app(self, app):
         self.num_windows -= 1
+
+    def focus_app(self, app):
+        AppProvider.focusApp(app.exec_path)
 
     def close_app(self, app):
         AppProvider.killApp(app.exec_path)

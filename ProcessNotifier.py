@@ -1,24 +1,41 @@
-import pyinotify
+from Config import *
+import psutil
 
-# Linux code
-LINUX_DIR = "/proc"
+class ProcessNotifier(object):
+    screen = Wnck.Screen.get_default()
+    open_procs = {}
 
-class MyEventHandler(pyinotify.ProcessEvent):
-    def process_IN_CREATE(self, event):
-        print "File created:", event.pathname
+    @staticmethod
+    def getProcNameByPID(pid):
+        return psutil.Process(pid).name()
 
-    def process_IN_OPEN(self, event):
-        print "File opened::", event.pathname
+    @staticmethod
+    def isRunning(proc_name):
+        return ProcessNotifier.open_procs.has_key(proc_name)
 
-def start_watch():
-    # Watch manager (stores watches, you can add multiple dirs)
-    wm = pyinotify.WatchManager()
-    # User's music is in /tmp/music, watch recursively
-    wm.add_watch(LINUX_DIR, pyinotify.ALL_EVENTS, rec=True)
+    @staticmethod
+    def update():
+        ProcessNotifier.open_procs = ProcessNotifier.getOpenProcs()
 
-    # Previously defined event handler class
-    eh = MyEventHandler()
+    @staticmethod
+    def getOpenProcsCached():
+        return ProcessNotifier.open_procs
 
-    # Register the event handler with the notifier and listen for events
-    notifier = pyinotify.Notifier(wm, eh)
-    notifier.loop()
+    @staticmethod
+    def getOpenProcs():
+        ProcessNotifier.screen.force_update()
+        wins = ProcessNotifier.screen.get_windows()
+        procs = {}
+
+        try:
+            for win in wins:
+                if win.get_pid() != os.getpid(): # if its not us
+                    procs[ ProcessNotifier.getProcNameByPID(win.get_pid()) ] = win
+        except:
+            print "[ProcessNotifier] failed to update, removal in process?"
+
+        return procs
+
+    @staticmethod
+    def getActiveProc():
+        ProcessNotifier.getProcNameByPID(ProcessNotifier.screen.get_active_window.pid)

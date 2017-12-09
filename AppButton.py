@@ -1,4 +1,3 @@
-import Launcher
 from Button import ImageButton
 
 class AppButton(ImageButton):
@@ -8,4 +7,7 @@ class AppButton(ImageButton):
         super(AppButton, self).__init__(app_window.app.icon_path, self.app_click)
 
     def app_click(self, widget, event):
-        self.app_window.close()
+        if event.button == 3: # right click
+            self.app_window.close()
+        else:
+            self.app_window.focus()

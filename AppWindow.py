@@ -11,5 +11,8 @@ class AppWindow(LauncherWindow):
         super(AppWindow, self).__init__(layout = self.layout)
         self.set_keep_above(True)
 
+    def focus(self):
+        self.app.focus()
+
     def close(self):
         self.app.close()

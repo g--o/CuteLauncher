@@ -23,6 +23,9 @@ class App(object):
     def close(self):
         self.launcher.close_app(self)
 
+    def focus(self):
+        self.launcher.focus_app(self)
+
     def set_running(self, is_running):
         if self.is_running == is_running:
             return False
@@ -32,4 +35,3 @@ class App(object):
             self.hide()
         self.is_running = is_running
         return True
-
