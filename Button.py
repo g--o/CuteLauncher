@@ -2,6 +2,13 @@
 from Config import *
 from Images import *
 
+from Xlib import display
+
+def mousepos():
+    """mousepos() --> (x, y) get the mouse coordinates on the screen (linux, Xlib)."""
+    data = display.Display().screen().root.query_pointer()._data
+    return data["root_x"], data["root_y"]
+
 class Clickable(Gtk.EventBox):
     SIZE = (64, 64)
 
@@ -9,6 +16,14 @@ class Clickable(Gtk.EventBox):
         super(Clickable, self).__init__()
         self.clicked_fn = clicked_fn
         self.connect("button_press_event", self.clicked_fn)
+        self.connect("motion_notify_event", self.motion_notify_event)
+
+    def motion_notify_event(self, widget, event):
+        x, y = mousepos()
+        parent_window = self.get_parent_window()
+        geo = parent_window.get_geometry()
+        sx,sy = geo.width, geo.height
+        parent_window.move(x - sx/2, y - sy/2)
 
 class LabelButton(Gtk.Button):
     def __init__(self, label = "", clicked_fn = None):

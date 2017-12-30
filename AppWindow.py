@@ -2,7 +2,7 @@
 from LauncherWindow import *
 
 # app_detail is (label, icon, path)
-app_detail_exit = ("Exit", None, "exit")
+# app_detail_exit = ("Exit", None, "exit")
 
 class AppWindow(LauncherWindow):
     def __init__(self, app):
