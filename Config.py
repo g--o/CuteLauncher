@@ -1,8 +1,9 @@
-import cairo
+import cairocffi as cairo
 
 # import gi
 from gi import require_version
 require_version('Gtk', '3.0')
+require_version('Wnck', '3.0')
 # import gtk
 import os
 from gi.repository import Gtk, Gdk, GdkPixbuf, GLib, Wnck
