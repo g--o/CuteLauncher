@@ -1,9 +1,11 @@
 
 from Config import *
 
+import os.path
+
 def image_from_file(path, size = None):
     """ size - tuple of image size (width, height) """
-    if (path is None):
+    if (path is None or not os.path.isfile(path)):
         path = IMG_APP_DEFAULT
 
     image = Gtk.Image()
