@@ -3,6 +3,7 @@ import psutil
 from Config import *
 from ProcessNotifier import ProcessNotifier
 from gi.repository import GdkX11
+import Logger
 
 UPDATE_APP_ENTRIES = False
 APP_BLACK_LIST = []
@@ -69,7 +70,7 @@ class AppProvider:
         if icon:
             return icon.get_filename()
         else:
-            # print icon_name, " not found"
+            Logger.log(icon_name + " not found")
             return None
 
     @staticmethod

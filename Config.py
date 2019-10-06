@@ -25,5 +25,3 @@ else:
     raise Exception("Unsupported OS")
 
 APP_PATH_REGEX = os.path.join(APP_ENTRY_DIR, APP_ENTRY_REGEX)
-
-

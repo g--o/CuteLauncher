@@ -1,6 +1,7 @@
 from App import App
 from AppWindow import *
 from AppProvider import AppProvider
+import Logger
 
 REFRESH_RATE = 1 # seconds
 
@@ -23,7 +24,7 @@ class Launcher(object):
 
     def update(self):
         AppProvider.update()
-        print "[CuteLauncher] GUI update"
+        Logger.log("GUI update")
         for app in self.apps.values():
             if not app.set_running(AppProvider.isAppRunning(app.exec_path)):
                 continue
@@ -34,7 +35,7 @@ class Launcher(object):
         return True
 
     def start(self):
-        print "[CuteLauncher] Starting..."
+        Logger.log("Starting...")
         GLib.threads_init()
         GLib.timeout_add_seconds(REFRESH_RATE, self.update)
         Gtk.main()

@@ -1,5 +1,6 @@
 from Config import *
 import psutil
+import Logger
 
 class ProcessNotifier(object):
     screen = Wnck.Screen.get_default()
@@ -11,7 +12,7 @@ class ProcessNotifier(object):
 
     @staticmethod
     def isRunning(proc_name):
-        return ProcessNotifier.open_procs.has_key(proc_name)
+        return (proc_name in ProcessNotifier.open_procs)
 
     @staticmethod
     def update():
@@ -32,7 +33,7 @@ class ProcessNotifier(object):
                 if win.get_pid() != os.getpid(): # if its not us
                     procs[ ProcessNotifier.getProcNameByPID(win.get_pid()) ] = win
         except:
-            print "[ProcessNotifier] failed to update, removal in process?"
+            Logger.log("[ProcessNotifier] failed to update, removal in process?")
 
         return procs
 
