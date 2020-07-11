@@ -5,10 +5,10 @@ LINUX_DIR = "/proc"
 
 class MyEventHandler(pyinotify.ProcessEvent):
     def process_IN_CREATE(self, event):
-        print "File created:", event.pathname
+        print("File created:", event.pathname)
 
     def process_IN_OPEN(self, event):
-        print "File opened::", event.pathname
+        print("File opened::", event.pathname)
 
 def start_watch():
     # Watch manager (stores watches, you can add multiple dirs)

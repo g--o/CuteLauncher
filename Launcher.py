@@ -26,7 +26,7 @@ class Launcher(object):
         return True
 
     def start(self):
-        print "[CuteLauncher] starting..."
+        print("[CuteLauncher] starting...")
         GLib.threads_init()
         GLib.timeout_add_seconds(1, self.update)
         Gtk.main()

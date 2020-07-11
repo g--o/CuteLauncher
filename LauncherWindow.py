@@ -24,7 +24,7 @@ class LauncherWindow(Gtk.Window):
         if self.visual != None and self.screen.is_composited():
             self.set_visual(self.visual)
         else:
-            print "Advance graphics aren't supported!"
+            print("Advance graphics aren't supported!")
 
         # set up layout
         self.add(self.layout_window)
